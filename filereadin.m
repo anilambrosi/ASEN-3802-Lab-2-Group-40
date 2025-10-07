@@ -5,7 +5,7 @@ close all;
 a=dir('*mA');
 
 for i=1:length(a)
-    load(a(i).name)
+data = readmatrix(a(i).name);
 % how to get voltage and amperage from file names?
 % - options include strsplit, regex, etc.
 % ultimately, we need to use the format of each file name
