@@ -9,8 +9,6 @@ end
 namebrac = ["aluminum","brass","steel"];
 voltbrac = ["v25","v30","v22"];
 k=0;
-V =[25,30,25,30,22]; %remove when func
-I = [240 290	237	285	203]; %remove when func
 
 % Nested for loops to calculate data and plot for each
 for i=1:3
@@ -56,4 +54,5 @@ print("Steady Dist Slope " + namebrac(i)+ "_" + voltbrac(j),'-r300','-dpng')
         end
     end
 end
+
 end
