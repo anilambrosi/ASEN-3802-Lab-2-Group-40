@@ -72,7 +72,8 @@ title(titleStr,'Experimental vs. Best-Fit');
 xlabel('Position (m)');
 ylabel('Temperature (C)');
 legend('Experimental','Best-Fit','Location','northwest');
-
+filename = 'Steel Experimental vs. Best-Fit'; 
+print(filename,'-r300','-dpng')
     end
 end
 
@@ -90,6 +91,8 @@ xlabel('Position (m)');
 ylabel('Temperature (C)');
 legend('Experimental','Best-Fit','Location','northwest');
 M(5) = P(1); % getting slope for steel
+filename = 'Steel Experimental vs. Best-Fit'; 
+print(filename,'-r300','-dpng')
 
 %% Putting slopes into a table
 Cases = {'Aluminium_v25';'Aluminium_v30';'Brass_v25';'Brass_v30';'Steel_v22'};
