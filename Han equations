@@ -1,0 +1,6 @@
+% equations 
+Qdot = V * I;                     
+A = pi * (D/2)^2;                 
+Han = Qdot / (k * A);             
+T_an = T0 + Han * x;
+
