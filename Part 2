@@ -43,7 +43,7 @@ data.steel.properties(3) = 16.2;
 
 xPos(1) = 7.62*10^-2;
 for i=1:7
-        xPos(i+1) = .0127*(i-1)+.01375;
+        xPos(i+1) =xPos(1) + .0127*(i-1)+.01375;
 end
 
 namebrac = ["aluminum","brass","steel"];
