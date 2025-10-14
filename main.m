@@ -23,9 +23,9 @@ else
     data.steel.(strcat('v', v{1})) = readmatrix(a(i).name);
 end
 end
+% data table format: [time (s)] [temp at each thermocouple (C)]
 
 % properties(1) = density; properties(2) = cp; properties(3) = k
-
 data.aluminum.properties(1) = 2810;
 data.aluminum.properties(2) = 960;
 data.aluminum.properties(3) = 130;
@@ -37,3 +37,4 @@ data.brass.properties(3) = 115;
 data.steel.properties(1) = 8000;
 data.steel.properties(2) = 500;
 data.steel.properties(3) = 16.2;
+
