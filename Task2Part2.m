@@ -42,7 +42,10 @@ data.steel.properties(3) = 16.2;
 
 [Hex,T0,Han] = SteadyStateSlope(data,volts,amps);
 % Function call for Part 2 task 2
-[u] = slopederivation(data.aluminum.v25(:,1),data.aluminum.properties,16.5,Han(1,1));
+[u12] = slopederivation(data.aluminum.v25(:,1),data.aluminum.properties,T0(1),Han(1,1));  
+%Generic function call to get all of the data for each thermocouple
+%Change slot 1 for data, slot 2 for material properties, 3 for t0 (change i
+%value for each material), 4th slot for H values 
 
 %Plotting to compare data
 figure()
@@ -122,7 +125,7 @@ for i=1:8
     for j=1:length(time)-5
         summa=0;
         for n=1:15
-lambda = ((2*n-1)*pi)/2*l;
+lambda = (2*n-1)*pi/(2*l);
 b = (8*H*l/((2*n-1)^2*pi^2))*(-1)^n;
 summa = summa + b*sin(lambda*x(i))*exp(-alpha*time(j)*lambda^2);
         end
