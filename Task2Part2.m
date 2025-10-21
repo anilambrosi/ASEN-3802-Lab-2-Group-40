@@ -1,3 +1,59 @@
+clear;
+clc;
+close all;
+
+a=dir('*mA');
+
+for i=1:length(a)
+% how to get voltage and amperage from file names?
+% - options include strsplit, regex, etc.
+% ultimately, we need to use the format of each file name
+% 'material'_'volts'V_'amps'mA
+b = strsplit(a(i).name,'_'); % gives a cell array (b) that is 1x3
+% {'material','voltsV','ampsmA'} -- now split by 'V' and 'mA'
+v = strsplit(b{2},'V'); % volts are always in the second portion
+ampval= strsplit(b{3},'mA'); % amps are always in the third portion
+volts(i) = str2num(v{1}); % convert string to number (vector)
+amps(i) = str2num(ampval{1});
+if i <= 2
+    data.aluminum.(strcat('v', v{1})) = readmatrix(a(i).name);
+elseif i == 3 || i == 4
+    data.brass.(strcat('v', v{1})) = readmatrix(a(i).name);
+else
+    data.steel.(strcat('v', v{1})) = readmatrix(a(i).name);
+end
+end
+
+% properties(1) = density; properties(2) = cp; properties(3) = k
+
+data.aluminum.properties(1) = 2810;
+data.aluminum.properties(2) = 960;
+data.aluminum.properties(3) = 130;
+
+data.brass.properties(1) = 8500;
+data.brass.properties(2) = 380;
+data.brass.properties(3) = 115;
+
+data.steel.properties(1) = 8000;
+data.steel.properties(2) = 500;
+data.steel.properties(3) = 16.2;
+
+
+
+[Hex,T0,Han] = SteadyStateSlope(data,volts,amps);
+% Function call for Part 2 task 2
+[u] = slopederivation(data.aluminum.v25(:,1),data.aluminum.properties,16.5,Han(1,1));
+
+%Plotting to compare data
+figure()
+plot(data.aluminum.v25(1:339,1),u(:,1))
+hold on
+plot(data.aluminum.v25(1:339,1),data.aluminum.v25(1:339,2))
+
+
+
+%% Functions 
+% Ignore this
 function [slopeAnalytical,T0,Han]  = SteadyStateSlope(data,V,I)
 % Define Thermocouple x
 xPos(1) = 0;
@@ -55,3 +111,23 @@ print("Steady Dist Slope " + namebrac(i)+ "_" + voltbrac(j),'-r300','-dpng')
     end
 end
 end
+
+% This function has the error
+function [u] = slopederivation(time,props,T0,H)
+% Define Constants
+l = .01+7*.0127+.034925;
+alpha = props(3)/(props(1)*props(2));
+for i=1:8
+    x(i) = .0127*(i-1)+.034925;
+    for j=1:length(time)-5
+        summa=0;
+        for n=1:15
+lambda = ((2*n-1)*pi)/2*l;
+b = (8*H*l/((2*n-1)^2*pi^2))*(-1)^n;
+summa = summa + b*sin(lambda*x(i))*exp(-alpha*time(j)*lambda^2);
+        end
+        u(j,i) = T0+H*x(i) +summa;
+    end
+end
+end
+
