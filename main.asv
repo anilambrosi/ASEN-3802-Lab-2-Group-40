@@ -44,7 +44,7 @@ T_0 = 17.065;
 H_an = 91.0858;
 x = 0.1238;
 L = .1338;
-b = @(H,L,n) ((-1)^(n+1))*(8*H*L)/((2*n*pi)^2);
+b = @(H,L,n) ((-1)^n)*(2*H*L)/(n*pi);
 lambda = @(L,n) (2*n-1)*pi/(2*L);
 b_n = zeros(10,1);
 lambda_n = zeros(10,1);
@@ -60,8 +60,8 @@ u1000(1) = T_0 + H_an*x;
 for j=1:10
     b_n(j) = b(H_an,L,j);
     lambda_n(j)=lambda(L,j);
-    fourierTerms1(j) = b_n(j)*sin(lambda_n(j)*x)*exp(-data.aluminum.properties(4)*(lambda_n(j)^2));
-    fourierTerms1000(j)= b_n(j)*sin(lambda_n(j)*x)*exp(-data.aluminum.properties(4)*(lambda_n(j)^2)*1000);
+    fourierTerms1(j) = b_n(j)*sin(l)*exp(-(j*data.aluminum.properties(4)*pi/L)^2);
+    fourierTerms1000 (j)= b_n(j)*sin(j*pi*x/L)*exp(-((j*data.aluminum.properties(4)*pi/L)^2)*1000);
 end
 
 for j = 2:11
@@ -74,9 +74,4 @@ plot(i,u1)
 hold on
 plot(i,u1000)
 xlabel('Terms in fourier series')
-ylabel(['Temperature at final thermocouple (' char(176) 'C)'])
-legend('t=1','t=1000')
-ylim([10 35])
-
-fouriernumber(1) = data.aluminum.properties(4)/(L*L);
-fouriernumber(2) = data.aluminum.properties(4)*1000/(L*L);
+ylabel('Temperature')
